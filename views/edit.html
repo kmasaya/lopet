@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}情報提供の編集 - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">情報提供の編集</h2>
+
+    <form action="" method="POST" class="pure-form pure-form-aligned signup-form" enctype="multipart/form-data">
+        {% if message %}
+        <div class="form-alart">{{message}}</div>
+        {% endif %}
+
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="prefectural">{{_('Prefectural')}}</label>
+                <select name="prefectural" id="prefectural" required="required">
+                    {% for city in cities %}{% if city.parent == None%}
+                    <option value="{{city.id}}" {% if entry.city.parent == city or entry.city == city %}selected="selected"{% endif %}>{{city.name}}</option>{% endif %}{% endfor %}
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="city">{{_('City')}}</label>
+                <select name="city" id="city" required="required">
+                    {% for city in cities %}{% if city.parent == entry.city.parent or city.parent == entry.city or city == entry.city or city == entry.city.parent %}
+                    <option value="{{city.id}}" {% if entry.city.id == city.id %}selected="selected"{% endif %}>{{city.name}}</option>{% endif %}{% endfor %}
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="city_note">{{_('City note')}}</label>
+                <input id="city_note" type="text" name="city_note" placeholder="○○小学校付近" value="{{form_get('city_note', entry.city_note)|escape}}" maxlength="28">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="pet_category">{{_('Pet Category')}}</label>
+                <select name="pet_category" id="pet_category">
+                    {% for pet_category in pet_categories %}
+                    <option value="{{pet_category.id}}" {% if entry.petcategory.id == pet_category.id %}selected="selected"{% endif %}>{{pet_category.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="pet_category_note">{{_('Pet Category note')}}</label>
+                <input id="pet_category_note" type="text" name="pet_category_note" placeholder="セキセイインコ" value="{{form_get('pet_category_note', entry.petcategory_note)|escape}}" maxlength="28">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="date">{{_('Lose Date')}}</label>
+                <input id="date" type="datetime" name="date" placeholder="2014-09-03 10:00" value="{{form_get('date', entry.find_at)|escape}}" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="petname">{{_('Pet name')}}</label>
+                <input id="petname" type="text" name="petname" placeholder="{{_('Input in any')}}" value="{{form_get('name', entry.name)|escape}}">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="special">{{_('Special')}}</label>
+                <textarea id="special" name="special" class="pure-input-1">{{form_get('special', entry.special)|escape}}</textarea>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="note">{{_('Note')}}</label>
+                <textarea id="note" name="note" class="pure-input-1">{{form_get('note', entry.note)|escape}}</textarea>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="file">{{_('Image(Multiple)')}}</label>
+                <input type="file" name="images[]" multiple="multiple">
+            </div>
+
+            <div class="pure-controls">
+                <p class="form-note">※個人情報など連絡先の入力はご遠慮下さい。</p>
+                <p class="form-note">※ペットカテゴリに登録のない種類は<a href="{{URL['contact']}}">お問合せ</a>よりご連絡下さい。</p>
+
+                <button type="submit" class="pure-button pure-button-primary">{{_('Register')}}</button>
+            </div>
+        </fieldset>
+    </form>
+
+    {% if entry_images.count() %}
+    <h3>画像を削除</h3>
+    <div class="search-images-remove">
+        <div class="pure-g">
+            {% for image in entry_images %}
+            <div class="pure-u-1-3 pure-u-lg-1-5 center search-image">
+                <form action="" method="POST" class="pure-form signup-form">
+                    <input type="hidden" name="remove-image" value="1">
+                    <input type="hidden" name="image_id" value="{{image.id}}">
+                    <fieldset>
+                        <div class="pure-controls">
+                            <div class="image">
+                                <img src="{{IMAGES_URL}}entry/{{image.filename}}" class="pure-img">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="pure-button pure-button-primary">{{_('Remove')}}</button>
+                    </fieldset>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <h3>解決済みにする</h3>
+    <div class="search-close">
+        <form action="" method="POST" class="pure-form">
+            <input type="hidden" name="close" value="1">
+            <input type="hidden" name="entry_id" value="{{entry.id}}">
+            <fieldset>
+                <div class="pure-controls">
+                    <label for="cb" class="pure-checkbox">
+                        <input id="cb" type="checkbox" name="cb" required="required"> 確認のためにチェックして下さい。
+                    </label>
+
+                    <p class="form-note">※解決済みにした情報は元に戻せません。</p>
+
+                    <button type="submit" class="pure-button pure-button-primary">{{_('Entry Close')}}</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <!--<h3>情報を削除する</h3>-->
+    <!--<div class="search-remove">-->
+        <!--<form action="" method="POST" class="pure-form">-->
+            <!--<input type="hidden" name="remove" value="1">-->
+            <!--<input type="hidden" name="entry_id" value="{{entry.id}}">-->
+            <!--<fieldset>-->
+                <!--<div class="pure-controls">-->
+                    <!--<label for="cb" class="pure-checkbox">-->
+                        <!--<input id="cb" type="checkbox" name="cb" required="required"> 削除の確認のためにチェックが必要です。-->
+                    <!--</label>-->
+
+                    <!--<p class="form-note">※削除した情報は元に戻せません。</p>-->
+
+                    <!--<button type="submit" class="pure-button pure-button-primary">{{_('Entry Remove')}}</button>-->
+                <!--</div>-->
+            <!--</fieldset>-->
+        <!--</form>-->
+    <!--</div>-->
+</div>
+{% endblock %}

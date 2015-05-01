@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}新規ユーザ登録 - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">新規ユーザ登録</h2>
+
+    <form action="" method="POST" class="pure-form pure-form-aligned signup-form">
+        {% if message %}
+        <div class="form-alart">{{message}}</div>
+        {% endif %}
+
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="username">{{_('username')}}</label>
+                <input id="username" type="text" name="username" placeholder="{{_('6 or more characters')}}" value="{{form_get('username', '')|escape}}" maxlength="24" pattern="^[0-9A-Za-z]+$" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="password">{{_('password')}}</label>
+                <input id="password" type="password" name="password" placeholder="{{_('6 or more characters')}}" maxlength="24" pattern="^[0-9A-Za-z]+$" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="email">{{_('email address')}}</label>
+                <input id="email" type="email" name="email" placeholder="{{_('Input in any')}}" value="{{form_get('email', '')|escape}}" maxlength="116">
+            </div>
+
+            <div class="pure-controls">
+                <label for="cb" class="pure-checkbox">
+                    <input id="cb" type="checkbox" name="cb" required="required"> <a href="{{URL['terms']}}" target="_blank">利用規約</a>に同意します。
+                </label>
+
+                <p class="form-note">※ユーザ名、パスワードは半角英数で入力して下さい。</p>
+
+                <button type="submit" class="pure-button pure-button-primary">{{_('signup')}}</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+*#*
+*~*
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+
+# JetBrains file
+.idea/
+
+# tmp database
+*sqlite3

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% if offer_names[offer_type] %}
+{% set title = offer_names[offer_type] %}
+{% elif city %}
+    {% set title = city.name %}
+{% elif petcategory %}
+    {% set title = petcategory.name %}
+{% endif %}
+
+{% block title %}{{title}}の情報から探す - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content" id="list">
+    <h2 class="content-subhead">{{title}}の情報から探す</h2>
+
+    {% if entries.count() == 0 %}
+    <div class="entry-close">
+        <p>情報が登録されていません。</p>
+    </div>
+    {% else %}
+    <div class="pure-g entry-list">
+        {% for entry in entries.paginate(page, page_per_entry) %}
+        {% if entry.city.parent %}
+        {% set city_id = entry.city.parent.id.__str__() %}
+        {% else %}
+        {% set city_id = entry.city.id.__str__() %}
+        {% endif %}
+        <div class="pure-u-1-2 pure-u-lg-1-5">
+            <a href="/e/{{entry.id}}/">
+                <article class="entry">
+                    <header>
+                        <div class="offer">{{offer_names[offer_types[entry.type]]}}</div>
+                        <div class="image"><img src="{% if entry.image.count() %}{{ENTRY_IMAGES_URL}}{{entry.image[0].filename}}{% else %}{{STATICS_URL}}image/working.png{% endif %}" class="pure-img"></div>
+                    </header>
+                    <div class="property">
+                        <div class="information">
+                            <div class="date">{{entry.find_at.strftime('%Y年%m月%d日')}}</div>
+                            <div class="city">{{entry.city.parent.name}}{{entry.city.name}}</div>
+                        </div>
+                    </div>
+                </article>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="paginator">
+        <ul class="pure-paginator">
+            {% set pages = entries.count() // page_per_entry %}
+            {% set url_base = URL['search'] %}
+            {% if page >= 2 %}
+            <li><a class="pure-button prev" href="{{url_base}}{{offer_type}}/{{page-1}}/">&#171;</a></li>
+            {% endif %}
+            {% for i in range(1,pages+2) %}
+            <li><a href="{{url_base}}{{offer_type}}/{{i}}/" class="pure-button {% if i == page %}pure-button-active{% endif %}">{{i}}</a></li>
+            {% endfor %}
+            {% if pages+1 != page %}
+            <li><a class="pure-button next" href="{{url_base}}{{offer_type}}/{{page+1}}/">&#187;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

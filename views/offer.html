@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}情報提供について - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">情報提供について</h2>
+
+    {% if user == None %}
+    <div class="attention right">情報提供は、いたずら防止のため<a href="{{URL['signup']}}">ユーザ登録後</a>に行えます。</div>
+    {% endif %}
+
+    <p>
+      lopetではペットの「迷子」、「保護」、「目撃」情報を掲載しております。掲載についてはいたづら防止、提供情報の管理のためにユーザ登録制としておりますので、お手数ですが情報提供には<a href="{{URL['signup']}}">ユーザ登録</a>をお願いいたします。ユーザ登録をして頂くと掲示内容の管理などが行えるようになっております。
+    </p>
+    <p>
+      また自分で入力ができない、難しいという方には代理入力も行っておりますのでお問合せよりご連絡下さい。
+    </p>
+
+    <h3><a href="{{URL['offer_lose']}}">迷子情報の投稿</a></h3>
+    <p>ペットの迷子情報の投稿を行えます。</p>
+
+    <h3><a href="{{URL['offer_lose']}}">保護情報の投稿</a></h3>
+    <p>ペットの保護情報の投稿を行えます。</p>
+
+    <h3><a href="{{URL['offer_lose']}}">目撃情報の投稿</a></h3>
+    <p>ペットの目撃情報の投稿を行えます。</p>
+
+</div>
+{% endblock %}

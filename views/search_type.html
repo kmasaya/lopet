@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}ペットの種類から情報を探す - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">ペットの種類情報から探す</h2>
+
+    <table class="pure-table entry-list">
+        {% for petcategory in petcategories %}
+        <tr>
+            <td><a href="{{URL['search_type']}}{{petcategory.id}}/">{{petcategory.name}}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}ユーザ設定 - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">ユーザ設定</h2>
+
+    <form action="" method="POST" class="pure-form pure-form-aligned signup-form" enctype="multipart/form-data">
+        {% if message %}
+        <div class="form-alart">{{message}}</div>
+        {% endif %}
+
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="nickname">{{_('Nickname')}}</label>
+                <input id="nickname" type="text" name="nickname" placeholder="{{_('6 or more characters')}}" value="{{form_get('nickname', user.nickname)|escape}}" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="email">{{_('email address')}}</label>
+                <input id="email" type="email" name="email" placeholder="{{_('Input in any')}}" value="{{form_get('email', user.email)|escape}}">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="body">{{_('body')}}</label>
+                <textarea id="body" name="body" placeholder="{{_('Your information')}}" class="pure-input-1">{{form_get('body', user.body)|escape}}</textarea>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="file">{{_('Image(Multiple)')}}</label>
+                <input type="file" name="images[]" multiple="multiple">
+            </div>
+
+            <div class="pure-controls">
+                <p class="form-note">※Eメールアドレスはお知らせや、迷子登録への情報提供などに利用されるため登録しておくことをおすすめします。</p>
+                <p class="form-note">※現在のプロフィールは<a href="/u/{{user.id}}/">こちらから</a>ご確認いただけます。</p>
+
+                <button type="submit" class="pure-button pure-button-primary">{{_('change')}}</button>
+            </div>
+        </fieldset>
+    </form>
+
+    {% if user_images.count() %}
+    <h3>画像を編集</h3>
+    <div class="profile-images-remove">
+        <div class="pure-g">
+            {% for image in user_images %}
+            <div class="pure-u-1-3 pure-u-lg-1-5 center profile-image">
+                <form action="" method="POST" class="pure-form">
+                    <input type="hidden" name="remove-image" value="1">
+                    <input type="hidden" name="image_id" value="{{image.id}}">
+
+                    <fieldset>
+                        <div class="pure-control-group">
+                            <div class="image">
+                                <img src="{{IMAGES_URL}}profile/{{image.filename}}" class="pure-img">
+                            </div>
+                        </div>
+
+                        <div class="pure-controls">
+                            <button type="submit" class="pure-button pure-button-primary">{{_('Remove')}}</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

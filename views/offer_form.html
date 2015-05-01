@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% set title = offer_names[offer_type] %}
+        
+{% block title %}{{title}}情報の追加 - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">{{title}}情報の追加</h2>
+
+    <form action="" method="POST" class="pure-form pure-form-aligned signup-form" enctype="multipart/form-data">
+        {% if message %}
+        <div class="form-alart">{{message}}</div>
+        {% endif %}
+
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="prefectural">{{_('Prefectural')}}</label>
+                <select name="prefectural" id="prefectural" required="required">
+                    {% for city in cities %}{% if city.parent == None%}
+                    <option value="{{city.id}}">{{city.name}}</option>{% endif %}{% endfor %}
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="city">{{_('City')}}</label>
+                <select name="city" id="city" required="required">
+                    {% for city in cities %}{% if city.parent.id == 1 %}
+                    <option value="{{city.id}}">{{city.name}}</option>{% endif %}{% endfor %}
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="city_note">{{_('City note')}}</label>
+                <input id="city_note" type="text" name="city_note" placeholder="○○小学校付近" value="{{form_get('city_note', '')|escape}}" maxlength="28">
+            </div>            
+            
+            <div class="pure-control-group">
+                <label for="pet_category">{{_('Pet Category')}}</label>
+                <select name="pet_category" id="pet_category">
+                    {% for pet_category in pet_categories %}
+                    <option value="{{pet_category.id}}">{{pet_category.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="pet_category_note">{{_('Pet Category note')}}</label>
+                <input id="pet_category_note" type="text" name="pet_category_note" placeholder="セキセイインコ" value="{{form_get('pet_category_note', '')|escape}}" maxlength="28">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="date">{{_('Lose Date')}}</label>
+                <input id="date" type="datetime" name="date" placeholder="2014-09-03 10:00" value="{{form_get('date', '')|escape}}" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="petname">{{_('Pet name')}}</label>
+                <input id="petname" type="text" name="petname" placeholder="{{_('Input in any')}}" value="{{form_get('name', '')|escape}}">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="special">{{_('Special')}}</label>
+                <textarea id="special" name="special" class="pure-input-1">{{form_get('special', '')|escape}}</textarea>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="note">{{_('Note')}}</label>
+                <textarea id="note" name="note" class="pure-input-1">{{form_get('note', '')|escape}}</textarea>
+            </div>
+
+            <div class="pure-control-group">
+                <label for="file">{{_('Image(Multiple)')}}</label>
+                <input type="file" name="images[]" multiple="multiple">
+            </div>
+
+            <div class="pure-controls">
+                <p class="form-note">※個人情報など連絡先の入力はご遠慮下さい。</p>
+                <p class="form-note">※ファイルの複数選択が出来ない場合は編集ページより追加して下さい。</p>
+                <p class="form-note">※ペットカテゴリに登録のない動物は<a href="{{URL['contact']}}">お問合せ</a>よりご連絡下さい。</p>
+                <button type="submit" class="pure-button pure-button-primary">{{_('register')}}</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

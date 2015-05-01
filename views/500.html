@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}500 Internal Server Error. - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2>500 Internal Server Error.</h2>
+
+    <p>サーバエラーが発生しました。ご迷惑をお掛けします。<br>
+        他のページにアクセスするか、しばらく時間を開けてからもう一度アクセスして下さい。</p>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}マイページ - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">マイページ</h2>
+
+    <div class="attention right">プロフィールの変更は<a href="{{URL['setting']}}">ユーザ設定</a>から行えます。</div>
+
+    <h3>情報提供一覧</h3>
+    <table class="pure-table entry-list">
+        <thead>
+        <tr>
+            <th>情報</th>
+            <th>地域</th>
+            <th>種類</th>
+            <th>お名前</th>
+            <th>修正</th>
+        </tr>
+        </thead>
+        {% for entry in entries.paginate(page, page_per_entry) %}
+        <tr>
+            <td>{{offer_names[offer_types[entry.type]]}}</td>
+            <td>{{entry.city.parent.name}} {{entry.city.name}}</td>
+            <td>{{entry.petcategory.name}}</td>
+            <td>{{entry.name|escape}}</td>
+            <td><a href="/edit/{{entry.id}}/">#</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="paginator">
+        <ul class="pure-paginator">
+            {% set pages = entries.count() // page_per_entry %}
+            {% set url_base = URL['mypage'] %}
+            {% if page >= 2 %}
+            <li><a class="pure-button prev" href="{{url_base}}{{page-1}}/">&#171;</a></li>
+            {% endif %}
+            {% for i in range(1,pages+2) %}
+            <li><a href="{{url_base}}{{i}}/" class="pure-button {% if i == page %}pure-button-active{% endif %}">{{i}}</a></li>
+            {% endfor %}
+            {% if pages+1 != page %}
+            <li><a class="pure-button next" href="{{url_base}}{{page+1}}/">&#187;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

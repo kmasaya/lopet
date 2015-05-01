@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}example.jp</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="lopetは迷子ペット、保護ペットの情報を集め、迷子ペットと飼い主が再開できる場を提供することを目的としております。">
+    <meta name="google-site-verification" content="RVvX8hxgUvL7TXfh4NB8nUeqMvWrymbJ0bO_FImhdDs">
+
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="{{STATICS_URL}}css/layouts/side-menu-old-ie.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="{{STATICS_URL}}css/layouts/side-menu.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="{{STATICS_URL}}css/jquery.datetimepicker.css">
+    <link rel="stylesheet" href="{{STATICS_URL}}css/jquery.fancybox.css?v=2.1.5">
+    <link rel="stylesheet" href="{{STATICS_URL}}css/jquery.fancybox-thumbs.css?v=1.0.7">
+    <link rel="stylesheet" href="{{STATICS_URL}}css/social-likes_flat.css">
+
+    <link rel="stylesheet" href="{{STATICS_URL}}css/common.css">
+    <link rel="stylesheet" href="{{STATICS_URL}}css/print.css?22">
+</head>
+<body>
+<div id="layout">
+    <a href="#menu" id="menuLink" class="menu-link no-print">
+        <span></span>
+    </a>
+
+    <div id="menu" class="no-print">
+        <div class="pure-menu pure-menu-open">
+            <a class="pure-menu-heading" href="{{URL['index']}}">example.jp</a>
+            <ul>
+                <li><a href="{{URL['about']}}">lopetについて</a></li>
+                <li><a href="{{URL['contact']}}">お問合せ</a></li>
+
+                <li class="menu-item-divided pure-menu-selected"><a href="{{URL['offer']}}">情報提供</a></li>
+                {% if user %}
+                <li><a href="{{URL['offer_lose']}}">迷子</a></li>
+                <li><a href="{{URL['offer_conservation']}}">保護</a></li>
+                <li><a href="{{URL['offer_witness']}}">目撃</a></li>
+                {% endif %}
+
+                <li class="menu-item-divided pure-menu-selected"><a href="{{URL['search']}}">情報を探す</a></li>
+                <li><a href="{{URL['search_lose']}}">迷子から</a></li>
+                <li><a href="{{URL['search_conservation']}}">保護から</a></li>
+                <li><a href="{{URL['search_witness']}}">目撃から</a></li>
+                <li><a href="{{URL['search_city']}}">地域から</a></li>
+                <li><a href="{{URL['search_type']}}">種類から</a></li>
+
+                <li class="menu-item-divided pure-menu-selected"><a href="{{URL['account']}}">アカウント</a></li>
+                {% if user %}
+                <li><a href="{{URL['mypage']}}">マイページ</a></li>
+                <li><a href="{{URL['signout']}}">ログアウト</a></li>
+                {% else %}
+                <li><a href="{{URL['signup']}}">ユーザ登録</a></li>
+                <li><a href="{{URL['signin']}}">ログイン</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <div id="main">
+        {% block content %}
+        <div class="header no-print">
+            <h1><a href="{{URL['index']}}">example.jp</a></h1>
+            <h2>迷子ペットを探すお手伝い</h2>
+        </div>
+        {% endblock %}
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="{{STATICS_URL}}js/jquery.datetimepicker.js"></script>
+<script src="{{STATICS_URL}}js/jquery.mousewheel-3.0.6.pack.js"></script>
+<script src="{{STATICS_URL}}js/jquery.fancybox.pack.js?v=2.1.5"></script>
+<script src="{{STATICS_URL}}js/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+<script src="{{STATICS_URL}}js/social-likes.min.js"></script>
+<script src="{{STATICS_URL}}js/ui.js"></script>
+<script src="{{STATICS_URL}}js/common.js"></script>
+<script src="{{STATICS_URL}}js/change_input_city.js"></script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-56124176-1', 'auto');
+    ga('send', 'pageview');
+</script>
+</body>
+</html>

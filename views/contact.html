@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}お問合せ - {% endblock %}
+
+{% block content %}
+{{super()}}
+
+<div class="content">
+    <h2 class="content-subhead">お問合せ</h2>
+
+    <form action="" method="POST" class="pure-form pure-form-aligned signup-form">
+        {% if message %}
+        <div class="form-alart">{{message}}</div>
+        {% endif %}
+
+        <fieldset>
+            <div class="pure-control-group">
+                <label for="name">{{_('name')}}</label>
+                <input id="name" type="text" name="name" value="{{form_get('name', '')}}" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="email">{{_('email address')}}</label>
+                <input id="email" type="email" name="email" value="{{form_get('email', '')}}" required="required">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="body">{{_('body')}}</label>
+                <textarea id="body" name="body" class="pure-input-1" required="required">{{form_get('body', '')}}</textarea>
+            </div>
+
+            <div class="pure-controls">
+                <label for="cb" class="pure-checkbox">
+                    <input id="cb" type="checkbox" name="cb" required="required"> <a href="{{URL['terms']}}" target="_blank">利用規約</a>に同意します。
+                </label>
+
+                <button type="submit" class="pure-button pure-button-primary">{{_('Send')}}</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
